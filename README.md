@@ -1,9 +1,9 @@
 <p align="center">
-  <img src="icon.png" alt="Trusted Signing" />
+  <img src="icon.png" alt="Artifact Signing" />
 </p>
 
-# Trusted Signing
-The Trusted Signing Action allows you to digitally sign your files using a Trusted Signing certificate during a GitHub Actions run.
+# Artifact Signing
+The Artifact Signing Action allows you to digitally sign your files using a Artifact Signing certificate during a GitHub Actions run.
 
 ## Runner Requirements
 This Action can only be executed on Windows runners. It is supported by the following GitHub hosted runners:
@@ -27,7 +27,7 @@ on:
 jobs:
   build-and-sign:
     runs-on: windows-latest
-    name: Build app and sign files with Trusted Signing
+    name: Build app and sign files with Artifact Signing
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,14 +38,14 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore WpfApp
 
-      - name: Sign files with Trusted Signing
-        uses: azure/trusted-signing-action@v0
+      - name: Sign files with Artifact Signing
+        uses: azure/artifact-signing-action@v0
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
           azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
           endpoint: https://eus.codesigning.azure.net/
-          trusted-signing-account-name: vscx-codesigning
+          signing-account-name: vscx-codesigning
           certificate-profile-name: vscx-certificate-profile
           files-folder: ${{ github.workspace }}\App\App\bin\Release\net8.0-windows
           files-folder-filter: exe,dll
@@ -55,15 +55,15 @@ jobs:
 ```
 
 ## Usage
-Please review [Common error codes and mitigations](https://learn.microsoft.com/azure/trusted-signing/faq#common-error-codes-and-mitigations) before filing an issue.
+Please review [Common error codes and mitigations](https://learn.microsoft.com/azure/artifact-signing/faq#common-error-codes-and-mitigations) before filing an issue.
 
 ### Authentication
 Behind the scenes, the Action uses [DefaultAzureCredential](https://learn.microsoft.com/dotnet/api/azure.identity.defaultazurecredential?view=azure-dotnet) as the primary method of authentication to Azure. The [EnvironmentCredential](https://learn.microsoft.com/dotnet/api/azure.identity.environmentcredential?view=azure-dotnet) variables are exposed as inputs and then set to Action-scoped environment variables. Each credential type supported by `DefaultAzureCredential` can be disabled using the Action inputs.
 
 > [!NOTE]
-> [Trusted Signing Certificate Profile Signer](https://learn.microsoft.com/azure/trusted-signing/concept-trusted-signing-resources-roles#supported-roles) role is required to successfully sign with Trusted Signing
+> [Artifact Signing Certificate Profile Signer](https://learn.microsoft.com/en-us/azure/artifact-signing/concept-resources-roles#supported-roles) role is required to successfully sign with Artifact Signing
 
-It is recommended to use OpenID Connect for authentication with the Trusted Signing service. See [Authenticating with OpenID Connect](docs/OIDC.md) for details on how to configure your GitHub pipeline with OIDC and Federated Credentials.
+It is recommended to use OpenID Connect for authentication with the Artifact Signing service. See [Authenticating with OpenID Connect](docs/OIDC.md) for details on how to configure your GitHub pipeline with OIDC and Federated Credentials.
 
 #### App Registration
 ```yaml
@@ -121,11 +121,11 @@ exclude-interactive-browser-credential: true
 
 ### Account Details
 ```yaml
-# The Trusted Signing Account endpoint. The URI value must have a URI that aligns to the region your Trusted Signing Account and Certificate Profile you are specifying were created in during the setup of these resources.
+# The Artifact Signing Account endpoint. The URI value must have a URI that aligns to the region your Artifact Signing Account and Certificate Profile you are specifying were created in during the setup of these resources.
 endpoint: https://eus.codesigning.azure.net/
 
-# The Trusted Signing Account name.
-trusted-signing-account-name: my-account-name
+# The Artifact Signing Account name.
+signing-account-name: my-account-name
 
 # The Certificate Profile name.
 certificate-profile-name: my-profile-name
@@ -235,7 +235,7 @@ append-signature: true
 description: My signed content.
 
 # A Uniform Resource Locator (URL) for the expanded description of the signed content.
-description-url: https://github.com/azure/trusted-signing-action
+description-url: https://github.com/azure/artifact-signing-action
 ```
 
 ### Digest
@@ -291,7 +291,7 @@ clickonce-publisher-name: My ClickOnce publisher name.
 
 ### Miscellaneous
 ```yaml
-# The number of seconds that the Trusted Signing service will wait for all files to be signed before it exits. The default value is 300 seconds.
+# The number of seconds that the Artifact Signing service will wait for all files to be signed before it exits. The default value is 300 seconds.
 timeout: 600
 
 # The summed length of file paths that can be signed with each signtool call. This parameter should only be relevant if you are signing a large number of files. Increasing the value may result in performance gains at the risk of potentially hitting your system's maximum command length limit. The minimum value is 0 and the maximum value is 30000. A value of 0 means that every file will be signed with an individual call to signtool.
@@ -303,7 +303,7 @@ cache-dependencies: true
 # A boolean value (true/false) that controls trace logging. The default value is false.
 trace: false
 
-# A unique identifier for the signing request. This value is used to track the signing request in the Trusted Signing service.
+# A unique identifier for the signing request. This value is used to track the signing request in Artifact Signing.
 correlation-id: aaaa0000-bb11-2222-33cc-444444dddddd
 ```
 
@@ -311,7 +311,7 @@ correlation-id: aaaa0000-bb11-2222-33cc-444444dddddd
 ### ClickOnce
 Generally you will want to sign an entire package and all its contents i.e. the deployment manifest (`.application` or `.vsto`), application manifest (`.exe.manifest` or `.dll.manifest`) and the underlying `.exe` and `.dll` files themselves. To do this, ensure that the entire contents of the package are available (i.e. the whole `publish` folder from your build) and pass the deployment manifest (`.application` or `.vsto`) as the file to sign - the rest of the files will be detected and signed in the proper order automatically.
 
-In the example below, it is only necessary to pass `ClickOnceApp.application` and `setup.exe` to the Trusted Signing Action. The remaining "Application Files" will be signed automatically.
+In the example below, it is only necessary to pass `ClickOnceApp.application` and `setup.exe` to the Artifact Signing Action. The remaining "Application Files" will be signed automatically.
 
 ```txt
 C:\TEST\ASSETS\SAMPLE-FILES\CLICKONCE
@@ -341,7 +341,7 @@ The following inputs are ignored when signing ClickOnce files:
 - `enhanced-key-usage`
 
 ### Timestamping
-The files must be signed with timestamping enabled in order for the signatures to be valid for longer than 3 days. It is recommended to use the Trusted Signing timestamp server:
+The files must be signed with timestamping enabled in order for the signatures to be valid for longer than 3 days. It is recommended to use the Artifact Signing timestamp server:
 ```yaml
 timestamp-rfc3161: 'http://timestamp.acs.microsoft.com'
 timestamp-digest: 'SHA256'
@@ -350,7 +350,7 @@ timestamp-digest: 'SHA256'
 ### Authentication
 This Action performs authentication using [DefaultAzureCredential](https://learn.microsoft.com/dotnet/api/azure.identity.defaultazurecredential?view=azure-dotnet) which attempts a series of authentication methods in order. If one method fails, it will attempt the next one until authentication is successful.
 
-Each authentication method can be [disabled individually](https://github.com/Azure/trusted-signing-action#exclude-credentials) so that no time is wasted attempting to authenticate with methods that will never pass.
+Each authentication method can be [disabled individually](https://github.com/Azure/artifact-signing-action#exclude-credentials) so that no time is wasted attempting to authenticate with methods that will never pass.
 
 For example, when authenticating with [EnvironmentCredential](https://learn.microsoft.com/dotnet/api/azure.identity.environmentcredential?view=azure-dotnet) specifically, disable the other credentials with the following inputs:
 ```yaml
@@ -369,7 +369,7 @@ exclude-interactive-browser-credential: true
 This can make the Action fail faster if for some reason the [EnvironmentCredential](https://learn.microsoft.com/dotnet/api/azure.identity.environmentcredential?view=azure-dotnet) fails. Similarly, if using for example an [AzureCliCredential ](https://learn.microsoft.com/dotnet/api/azure.identity.azureclicredential?view=azure-dotnet), then we want to skip over attempting to authenticate with the several methods that come before it in order.
 
 ### Self-Hosted Agents
-When running the Trusted Signing Action on a self-hosted agent/private runner you may encounter the following error:
+When running the Artifact Signing Action on a self-hosted agent/private runner you may encounter the following error:
 
 `Exception calling "ShouldContinue" with "2" argument(s): "Windows PowerShell is in NonInteractive mode. Read and Prompt functionality is not available."`
 
