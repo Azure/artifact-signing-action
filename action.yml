@@ -1,5 +1,5 @@
-name: 'Trusted Signing'
-description: 'Sign your files with Trusted Signing.'
+name: 'Artifact Signing'
+description: 'Sign your files with Artifact Signing.'
 inputs:
   azure-tenant-id:
     description: The Azure Active Directory tenant (directory) ID.
@@ -27,12 +27,12 @@ inputs:
                  accounts with MFA enabled.
     required: false
   endpoint:
-    description: The Trusted Signing Account endpoint. The URI value must have a URI that aligns to the
-                 region your Trusted Signing Account and Certificate Profile you are specifying were created
+    description: The Artifact Signing Account endpoint. The URI value must have a URI that aligns to the
+                 region your Signing Account and Certificate Profile you are specifying were created
                  in during the setup of these resources.
     required: true
-  code-signing-account-name:
-    description: The Code Signing Account name.
+  signing-account-name:
+    description: The Signing Account name.
     required: false
   trusted-signing-account-name:
     description: The Trusted Signing Account name.
@@ -169,7 +169,7 @@ inputs:
     required: false
     default: 'true'
   timeout:
-    description: The number of seconds that the Trusted Signing service will wait for all files
+    description: The number of seconds that the Artifact Signing service will wait for all files
                  to be signed before it exits. The default value is 300 seconds.
     required: false
   batch-size:
@@ -199,7 +199,7 @@ inputs:
     required: false
   correlation-id:
     description: A unique identifier for the signing request. This value is used to track the signing request
-                 in the Trusted Signing service.
+                 in the Artifact Signing service.
     required: false
 
 runs:
@@ -257,7 +257,7 @@ runs:
         key: SignCli-${{ steps.set-variables.outputs.DOTNET_SIGNCLI_NUGET_VERSION }}
       if: ${{ inputs.cache-dependencies == 'true' }}
 
-    - name: Install Trusted Signing module
+    - name: Install Artifact Signing module
       shell: 'pwsh'
       run: |
         Install-Module -Name TrustedSigning -RequiredVersion ${{ steps.set-variables.outputs.TRUSTED_SIGNING_MODULE_VERSION }} -Force -Repository PSGallery
@@ -274,7 +274,7 @@ runs:
         AZURE_PASSWORD: ${{ inputs.azure-password }}
         INPUT_ENDPOINT: ${{ inputs.endpoint }}
         INPUT_TRUSTED_SIGNING_ACCOUNT_NAME: ${{ inputs.trusted-signing-account-name }}
-        INPUT_CODE_SIGNING_ACCOUNT_NAME: ${{ inputs.code-signing-account-name }}
+        INPUT_SIGNING_ACCOUNT_NAME: ${{ inputs.signing-account-name }}
         INPUT_CERTIFICATE_PROFILE_NAME: ${{ inputs.certificate-profile-name }}
         INPUT_FILES: ${{ inputs.files }}
         INPUT_FILES_FOLDER: ${{ inputs.files-folder }}
@@ -324,16 +324,16 @@ runs:
           $params["Endpoint"] = $endpoint
         }
 
-        $trustedSigningAccountName = $env:INPUT_TRUSTED_SIGNING_ACCOUNT_NAME
-        if ([string]::IsNullOrWhiteSpace($trustedSigningAccountName)) {
-          $trustedSigningAccountName = $env:INPUT_CODE_SIGNING_ACCOUNT_NAME
-          if (-Not [string]::IsNullOrWhiteSpace($trustedSigningAccountName)) {
-            Write-Warning "The 'code-signing-account-name' input is deprecated. Please use 'trusted-signing-account-name' instead."
+        $signingAccountName = $env:INPUT_SIGNING_ACCOUNT_NAME
+        if ([string]::IsNullOrWhiteSpace($signingAccountName)) {
+          $signingAccountName = $env:INPUT_TRUSTED_SIGNING_ACCOUNT_NAME
+          if (-Not [string]::IsNullOrWhiteSpace($signingAccountName)) {
+            Write-Warning "The 'trusted-signing-account-name' input is deprecated. Please use 'signing-account-name' instead."
           } else {
-            throw "The 'trusted-signing-account-name' input is required."
+            throw "The 'signing-account-name' input is required."
           }
         }
-        $params["CodeSigningAccountName"] = $trustedSigningAccountName
+        $params["CodeSigningAccountName"] = $signingAccountName
 
         $certificateProfileName = $env:INPUT_CERTIFICATE_PROFILE_NAME
         if (-Not [string]::IsNullOrWhiteSpace($certificateProfileName)) {
