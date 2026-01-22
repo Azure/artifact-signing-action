@@ -268,7 +268,6 @@ runs:
         AZURE_TENANT_ID: ${{ inputs.azure-tenant-id }}
         AZURE_CLIENT_ID: ${{ inputs.azure-client-id }}
         AZURE_SUBSCRIPTION_ID: ${{ inputs.azure-subscription-id }}
-        AZURE_CLIENT_SECRET: ${{ inputs.azure-client-secret }}
         AZURE_CLIENT_CERTIFICATE_PATH: ${{ inputs.azure-client-certificate-path }}
         AZURE_CLIENT_SEND_CERTIFICATE_CHAIN: ${{ inputs.azure-client-send-certificate-chain }}
         AZURE_USERNAME: ${{ inputs.azure-username }}

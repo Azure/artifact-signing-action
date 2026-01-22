@@ -18,13 +18,13 @@
               azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
               azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
               ...
-              exclude-environment-credential: true
+              exclude-environment-credential: false
               exclude-workload-identity-credential: true
               exclude-managed-identity-credential: true
               exclude-shared-token-cache-credential: true
               exclude-visual-studio-credential: true
               exclude-visual-studio-code-credential: true
-              exclude-azure-cli-credential: false
+              exclude-azure-cli-credential: true
               exclude-azure-powershell-credential: true
               exclude-azure-developer-cli-credential: true
               exclude-interactive-browser-credential: true
