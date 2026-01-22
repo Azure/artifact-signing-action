@@ -2,7 +2,7 @@
  
  If using OpenID Connect is not feasible for your scenario, you can also authenticate using one of the following methods:
  
-    - **Service Principal with Client Secret**: Create a service principal in Azure AD and use its client ID and client secret to authenticate. Store these values as GitHub secrets and reference them in your workflow.
+- **Service Principal with Client Secret**: Create a service principal in Azure AD and use its client ID and client secret to authenticate. Store these values as GitHub secrets and reference them in your workflow.
 
 ``` yaml
     jobs:
@@ -29,3 +29,6 @@
               exclude-azure-developer-cli-credential: true
               exclude-interactive-browser-credential: true
 ```
+
+> [!Note]
+> These alternative methods are inherently less secure than using OpenID Connect, as they involve storing sensitive credentials. Ensure that you follow best practices for secret management in GitHub Actions.
