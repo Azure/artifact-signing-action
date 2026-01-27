@@ -17,12 +17,16 @@ It is also possible to use self-hosted runners with the following requirements:
 - .NET runtime 8.0+
 
 ## Example
-The example below shows how to sign the build output of a simple Wpf application.
+The example below shows how to sign the build output of a simple Wpf application using workload identity authentication with Artifact Signing.
 
 ```yaml
 on:
   push:
     branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   build-and-sign:
@@ -38,12 +42,17 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore WpfApp
 
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          enable-AzPSSession: true
+
       - name: Sign files with Artifact Signing
         uses: azure/artifact-signing-action@v1
         with:
-          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
           endpoint: https://eus.codesigning.azure.net/
           signing-account-name: vscx-codesigning
           certificate-profile-name: vscx-certificate-profile
@@ -54,6 +63,11 @@ jobs:
           timestamp-digest: SHA256
 ```
 
+It is recommended to use OpenID Connect for authentication with the Artifact Signing service. See [Authenticating with OpenID Connect](docs/OIDC.md) for details on how to configure your GitHub pipeline with OIDC and Federated Credentials.
+
+> [!IMPORTANT]
+> If this method of authentication is unfeasible for your scenario, you can also authenticate using secrets or certificate-based authentication. See the [Authentication](docs/AUTHN.md) section for more details.
+
 ## Usage
 Please review [Common error codes and mitigations](https://learn.microsoft.com/azure/artifact-signing/faq#common-error-codes-and-mitigations) before filing an issue.
 
@@ -62,8 +76,6 @@ Behind the scenes, the Action uses [DefaultAzureCredential](https://learn.micros
 
 > [!NOTE]
 > [Artifact Signing Certificate Profile Signer](https://learn.microsoft.com/en-us/azure/artifact-signing/concept-resources-roles#supported-roles) role is required to successfully sign with Artifact Signing
-
-It is recommended to use OpenID Connect for authentication with the Artifact Signing service. See [Authenticating with OpenID Connect](docs/OIDC.md) for details on how to configure your GitHub pipeline with OIDC and Federated Credentials.
 
 #### App Registration
 ```yaml
