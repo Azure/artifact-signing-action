@@ -205,6 +205,14 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Check runner OS
+      shell: 'pwsh'
+      run: |
+        if ($env:RUNNER_OS -ne 'Windows') {
+          Write-Error "This action only supports Windows runners. Current runner OS: '$env:RUNNER_OS'."
+          exit 1
+        }
+
     - name: Set variables
       id: set-variables
       shell: 'pwsh'
