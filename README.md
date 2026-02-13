@@ -50,7 +50,6 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          enable-AzPSSession: true
 
       - name: Sign files with Artifact Signing
         uses: azure/artifact-signing-action@v1
