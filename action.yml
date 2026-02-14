@@ -140,7 +140,7 @@ inputs:
   exclude-environment-credential:
     description: Exclude the "EnvironmentCredential" type from being considered when authenticating with "DefaultAzureCredential".
     required: false
-    default: 'true'
+    default: 'false'
   exclude-workload-identity-credential:
     description: Exclude the "WorkloadIdentityCredential" type from being considered when authenticating with "DefaultAzureCredential".
     required: false
