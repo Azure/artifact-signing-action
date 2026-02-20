@@ -140,30 +140,39 @@ inputs:
   exclude-environment-credential:
     description: Exclude the "EnvironmentCredential" type from being considered when authenticating with "DefaultAzureCredential".
     required: false
+    default: 'false'
   exclude-workload-identity-credential:
     description: Exclude the "WorkloadIdentityCredential" type from being considered when authenticating with "DefaultAzureCredential".
     required: false
+    default: 'true'
   exclude-managed-identity-credential:
     description: Exclude the "ManagedIdentity" type from being considered when authenticating with "DefaultAzureCredential".
     required: false
+    default: 'true'
   exclude-shared-token-cache-credential:
     description: Exclude the "SharedTokenCacheCredential" type from being considered when authenticating with "DefaultAzureCredential".
     required: false
+    default: 'true'
   exclude-visual-studio-credential:
     description: Exclude the "VisualStudioCredential" type from being considered when authenticating with "DefaultAzureCredential".
     required: false
+    default: 'true'
   exclude-visual-studio-code-credential:
     description: Exclude the "VisualStudioCodeCredential" type from being considered when authenticating with "DefaultAzureCredential".
     required: false
+    default: 'true'
   exclude-azure-cli-credential:
     description: Exclude the "AzureCliCredential" type from being considered when authenticating with "DefaultAzureCredential".
     required: false
+    default: 'false'
   exclude-azure-powershell-credential:
     description: Exclude the "AzurePowerShellCredential" type from being considered when authenticating with "DefaultAzureCredential".
     required: false
+    default: 'true'
   exclude-azure-developer-cli-credential:
     description: Exclude the "AzureDeveloperCliCredential" type from being considered when authenticating with "DefaultAzureCredential".
     required: false
+    default: 'true'
   exclude-interactive-browser-credential:
     description: Exclude the "InteractiveBrowserCredential" type from being considered when authenticating with "DefaultAzureCredential".
     required: false
