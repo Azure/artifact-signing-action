@@ -236,7 +236,7 @@ runs:
 
     - name: Cache TrustedSigning PowerShell module
       id: cache-module
-      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+      uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
       env:
         cache-name: cache-module
       with:
@@ -246,7 +246,7 @@ runs:
   
     - name: Cache Microsoft.Windows.SDK.BuildTools NuGet package
       id: cache-buildtools
-      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+      uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
       env:
         cache-name: cache-buildtools
       with:
@@ -256,7 +256,7 @@ runs:
 
     - name: Cache Microsoft.Trusted.Signing.Client NuGet package
       id: cache-tsclient
-      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+      uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
       env:
         cache-name: cache-tsclient
       with:
@@ -266,7 +266,7 @@ runs:
 
     - name: Cache SignCli NuGet package
       id: cache-signcli
-      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+      uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
       env:
         cache-name: cache-signcli
       with:
