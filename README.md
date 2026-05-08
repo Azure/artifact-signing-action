@@ -16,7 +16,7 @@ This Action can only be executed on Windows runners. It is supported by the foll
 It is also possible to use self-hosted runners with the following requirements:
 - Windows 7+
 - PowerShell 5.1+
-- .NET runtime 8.0+
+- .NET runtime 8.0
 
 ## Example
 The example below shows how to sign the build output of a simple Wpf application using workload identity authentication with Artifact Signing.
@@ -36,7 +36,7 @@ jobs:
     name: Build app and sign files with Artifact Signing
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install dependencies
         run: dotnet restore App
@@ -45,7 +45,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore WpfApp
 
       - name: Azure login
-        uses: azure/login@v1
+        uses: azure/login@v3
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
