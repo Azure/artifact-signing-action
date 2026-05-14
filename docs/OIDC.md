@@ -35,7 +35,7 @@ Follow the steps below to authenticate with [Open ID Connect](https://www.micros
               subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
           - name: Artifact Signing
-            uses: azure/artifact-signing-action@v1
+            uses: azure/artifact-signing-action@v2
             with:
               ...
               exclude-environment-credential: true

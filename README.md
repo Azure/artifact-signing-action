@@ -52,7 +52,7 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Sign files with Artifact Signing
-        uses: azure/artifact-signing-action@v1
+        uses: azure/artifact-signing-action@v2
         with:
           endpoint: https://eus.codesigning.azure.net/
           signing-account-name: vscx-codesigning
