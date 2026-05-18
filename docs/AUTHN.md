@@ -12,7 +12,7 @@
         steps:
 
           - name: Artifact Signing
-            uses: azure/artifact-signing-action@v1
+            uses: azure/artifact-signing-action@v2
             with:
               azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
               azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
