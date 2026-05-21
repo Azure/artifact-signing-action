@@ -9,12 +9,11 @@ The Artifact Signing Action allows you to digitally sign your files using a Arti
 This Action can only be executed on Windows runners. It is supported by the following GitHub hosted runners:
 - [windows-2025](https://github.com/actions/runner-images/blob/main/images/windows/Windows2025-Readme.md)
 - [windows-2022](https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md)
-- [windows-2019](https://github.com/actions/runner-images/blob/main/images/windows/Windows2019-Readme.md)
 
 > We currently do not support Windows Arm runners.
 
 It is also possible to use self-hosted runners with the following requirements:
-- Windows 7+
+- Windows 10+
 - PowerShell 5.1+
 - .NET runtime 8.0
 
@@ -105,28 +104,28 @@ azure-password: ${{ secrets.AZURE_PASSWORD }}
 exclude-environment-credential: false
 
 # Exclude the "WorkloadIdentity" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
-exclude-workload-identity-credential: false
+exclude-workload-identity-credential: true
 
 # Exclude the "ManagedIdentity" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
-exclude-managed-identity-credential: false
+exclude-managed-identity-credential: true
 
 # Exclude the "SharedTokenCacheCredential" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
-exclude-shared-token-cache-credential: false
+exclude-shared-token-cache-credential: true
 
 # Exclude the "VisualStudioCredential" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
-exclude-visual-studio-credential: false
+exclude-visual-studio-credential: true
 
 # Exclude the "VisualStudioCodeCredential" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
-exclude-visual-studio-code-credential: false
+exclude-visual-studio-code-credential: true
 
 # Exclude the "AzureCliCredential" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
 exclude-azure-cli-credential: false
 
 # Exclude the "AzurePowerShellCredential" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
-exclude-azure-powershell-credential: false
+exclude-azure-powershell-credential: true
 
 # Exclude the "AzureDeveloperCliCredential" type from being considered when authenticating with "DefaultAzureCredential". The default value is false.
-exclude-azure-developer-cli-credential: false
+exclude-azure-developer-cli-credential: true
 
 # Exclude the "InteractiveBrowserCredential" type from being considered when authenticating with "DefaultAzureCredential". The default value is true.
 exclude-interactive-browser-credential: true
@@ -162,7 +161,7 @@ This strategy allows you to specify a folder that contains all the files you wan
 
 ```yaml
 # The folder containing files to be signed. Can be combined with the file-catalog input.
-files-folder: ${{ github.workspace }}\App\App\bin\Release\net6.0-windows
+files-folder: ${{ github.workspace }}\App\App\bin\Release\net8.0-windows
 
 # A comma separated list of file extensions that determines which types of files will be signed in the folder specified by the files-folder input. Any file type not included in this list will not be signed. If this input is not used, all files in the folder will be signed. Supports wildcards for matching multiple file names with a pattern.
 files-folder-filter: dll,exe,msix
