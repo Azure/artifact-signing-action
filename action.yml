@@ -190,12 +190,13 @@ inputs:
     required: false
   cache-dependencies:
     description: A boolean value (true/false) that indicates if the dependencies for this action should be cached
-                 by GitHub or not. The default value is true. When using self-hosted runners, caches from workflow
-                 runs are stored on GitHub-owned cloud storage. A customer-owned storage solution is only available
-                 with GitHub Enterprise Server. When enabled, this option can reduce the duration of the action by
-                 at least 1 minute.
+                 by GitHub or not. The default value is false because GitHub Actions caches are not a security
+                 boundary and these dependencies contain executable code. Only enable caching when untrusted
+                 contributors cannot write cache entries readable by signing workflows. When using self-hosted
+                 runners, caches from workflow runs are stored on GitHub-owned cloud storage. A customer-owned
+                 storage solution is only available with GitHub Enterprise Server.
     required: false
-    default: 'true'
+    default: 'false'
   trace:
     description: A boolean value (true/false) that controls trace logging. The default value is false.
     required: false
