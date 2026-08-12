@@ -330,6 +330,7 @@ runs:
         INPUT_TRACE: ${{ inputs.trace }}
         INPUT_CLICKONCE_APPLICATION_NAME: ${{ inputs.clickonce-application-name }}
         INPUT_CLICKONCE_PUBLISHER_NAME: ${{ inputs.clickonce-publisher-name }}
+        INPUT_CORRELATION_ID: ${{ inputs.correlation-id }}
       run: |
         $params = @{}
 
@@ -542,6 +543,11 @@ runs:
         $clickOncePublisherName = $env:INPUT_CLICKONCE_PUBLISHER_NAME
         if (-Not [string]::IsNullOrWhiteSpace($clickOncePublisherName)) {
           $params["ClickOncePublisherName"] = $clickOncePublisherName
+        }
+
+        $correlationId = $env:INPUT_CORRELATION_ID
+        if (-Not [string]::IsNullOrWhiteSpace($correlationId)) {
+          $params["CorrelationId"] = $correlationId
         }
 
         Invoke-ArtifactSigning @params
