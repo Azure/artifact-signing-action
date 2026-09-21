@@ -309,8 +309,8 @@ timeout: 600
 # The summed length of file paths that can be signed with each signtool call. This parameter should only be relevant if you are signing a large number of files. Increasing the value may result in performance gains at the risk of potentially hitting your system's maximum command length limit. The minimum value is 0 and the maximum value is 30000. A value of 0 means that every file will be signed with an individual call to signtool.
 batch-size: 10000
 
-# A boolean value (true/false) that indicates if the dependencies for this action should be cached by GitHub or not. The default value is true. When using self-hosted runners, caches from workflow runs are stored on GitHub-owned cloud storage. A customer-owned storage solution is only available with GitHub Enterprise Server. When enabled, this option can reduce the duration of the action by at least 1 minute. More info: https://docs.github.com/actions/using-workflows/caching-dependencies-to-speed-up-workflows
-cache-dependencies: true
+# A boolean value (true/false) that indicates if the dependencies for this action should be cached by GitHub or not. The default value is false because GitHub Actions caches are not a security boundary and these dependencies contain executable code. Only enable caching after ensuring that untrusted contributors cannot write cache entries readable by signing workflows, including through pull_request_target, workflow_run, or issue_comment workflows. When using self-hosted runners, caches from workflow runs are stored on GitHub-owned cloud storage. A customer-owned storage solution is only available with GitHub Enterprise Server. More info: https://docs.github.com/actions/using-workflows/caching-dependencies-to-speed-up-workflows
+cache-dependencies: false
 
 # A boolean value (true/false) that controls trace logging. The default value is false.
 trace: false
