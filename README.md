@@ -15,7 +15,7 @@ This Action can only be executed on Windows runners. It is supported by the foll
 It is also possible to use self-hosted runners with the following requirements:
 - Windows 10+
 - PowerShell 5.1+
-- .NET runtime 8.0
+- .NET runtime 10.0
 
 ## Example
 The example below shows how to sign the build output of a simple Wpf application using workload identity authentication with Artifact Signing.
@@ -303,11 +303,14 @@ clickonce-publisher-name: My ClickOnce publisher name.
 
 ### Miscellaneous
 ```yaml
-# The number of seconds that the Artifact Signing service will wait for all files to be signed before it exits. The default value is 300 seconds.
+# The number of seconds to wait for each signing process. The default value is 300 seconds.
 timeout: 600
 
 # The summed length of file paths that can be signed with each signtool call. This parameter should only be relevant if you are signing a large number of files. Increasing the value may result in performance gains at the risk of potentially hitting your system's maximum command length limit. The minimum value is 0 and the maximum value is 30000. A value of 0 means that every file will be signed with an individual call to signtool.
 batch-size: 10000
+
+# The maximum number of parallel signing processes, from 1 through 256. When omitted, each signing tool uses its default concurrency.
+max-concurrency: 4
 
 # A boolean value (true/false) that indicates if the dependencies for this action should be cached by GitHub or not. The default value is false because GitHub Actions caches are not a security boundary and these dependencies contain executable code. Only enable caching after ensuring that untrusted contributors cannot write cache entries readable by signing workflows, including through pull_request_target, workflow_run, or issue_comment workflows. When using self-hosted runners, caches from workflow runs are stored on GitHub-owned cloud storage. A customer-owned storage solution is only available with GitHub Enterprise Server. More info: https://docs.github.com/actions/using-workflows/caching-dependencies-to-speed-up-workflows
 cache-dependencies: false
